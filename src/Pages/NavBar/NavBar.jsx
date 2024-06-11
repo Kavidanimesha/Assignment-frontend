@@ -10,8 +10,20 @@ import Brightness1Icon from "@mui/icons-material/Brightness1";
 import { Grid, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import GradeIcon from "@mui/icons-material/Grade";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar({title}) {
+
+  const navigate = useNavigate();
+
+  const handleNewProductClick = () => {
+    navigate("/addproduct");
+  };
+
+  const handleFavorite = () => {
+    navigate("/favorite")
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -78,11 +90,12 @@ export default function NavBar({title}) {
           <Button
             variant="contained"
             sx={{ marginRight: "10px", height: "50px", width: "260px" }}
+            onClick={handleNewProductClick}
           >
             New Product
           </Button>
-          <Button variant="outlined" sx={{ height: "50px" }}>
-            <GradeIcon sx={{ fontSize: "30px" }} />{" "}
+          <Button variant="outlined" sx={{ height: "50px" }} onClick={handleFavorite}>
+            <GradeIcon sx={{ fontSize: "30px" }} />
           </Button>
         </Grid>
       </Grid>
