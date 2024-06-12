@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import { Box, Button, Grid } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -10,16 +10,31 @@ import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import axios from "../utils/axios";
+import { toast } from "react-toastify";
+
 
 const Products = () => {
-  const rows = [
-    { id: 1, SKU: "122", image: "xyz", name: "ki", price: "13" },
-    { id: 2, SKU: "124", image: "ads", name: "bt", price: "64" },
-    { id: 3, SKU: "435", image: "gae", name: "kj", price: "48" },
-    { id: 4, SKU: "127", image: "hgh", name: "hy", price: "18" },
-    { id: 5, SKU: "165", image: "tuy", name: "fd", price: "87" },
-    { id: 6, SKU: "478", image: "gcg", name: "xg", price: "85" },
-  ];
+  const [customers, setCustomers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+
+      try {
+        const response = await axios.get("http://localhost:5000/api/products");
+
+        setCustomers(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        toast.error("Something Went Wrong!", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+      }
+    })();
+  }, []);
 
   return (
     <Box margin={5}>
@@ -38,10 +53,16 @@ const Products = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((item) => (
+              {customers.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell> {item.SKU} </TableCell>
-                  <TableCell> {item.image} </TableCell>
+                  <TableCell> {item.sku} </TableCell>
+                  <TableCell>
+                    <img
+                      src={`http://localhost:5000/${item.images[0].path}`}
+                      alt={item.name}
+                      style={{ width: "50px" }}
+                    />
+                  </TableCell>
                   <TableCell> {item.name} </TableCell>
                   <TableCell> {item.price} </TableCell>
                   <TableCell>

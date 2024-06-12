@@ -9,6 +9,7 @@ import Search from '../src/Pages/Search/Search'
 
 
 function App() {
+  localStorage.setItem("user","userDetails")
   return (
     <BrowserRouter>
       <Routes>
